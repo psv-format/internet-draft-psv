@@ -12,9 +12,8 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - markdown
+ - json
 venue:
 #  group: WG
 #  type: Working Group
@@ -26,7 +25,7 @@ venue:
 author:
  -
     fullname: "Brian"
-    organization: Your Organization Here
+    organization: PSV Format Group
     email: "mofosyne@gmail.com"
 
 normative:
