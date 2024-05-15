@@ -3,7 +3,7 @@ title: "Pipe Seperated Value"
 abbrev: "psv"
 category: info
 
-docname: draft-psv-format-latest
+docname: draft-psv-format.md
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
