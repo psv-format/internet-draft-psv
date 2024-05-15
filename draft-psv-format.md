@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "Pipe Seperated Value"
+abbrev: "psv"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-psv-format
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
