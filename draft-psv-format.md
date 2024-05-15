@@ -4,7 +4,7 @@ abbrev: "psv"
 category: info
 
 docname: draft-psv-format-latest
-submissiontype: independent
+submissiontype: IETF
 number:
 date:
 consensus: true
@@ -41,7 +41,7 @@ The PSV format aims to provide a standardized way to represent tabular data with
 
 {::boilerplate bcp14-tagged}
 
-# Table Structure
+# PSV Table Structure
 
 A PSV table consists of the following components:
 
@@ -85,27 +85,23 @@ These properties provide additional metadata or constraints for the values in th
 
 ## Example 1: Basic Table
 
-```
-{#basic-table}
-| Name    | Age [int] | City [str]    |
-| ---     | ---       | ---           |
-| Alice   | 25        | New York      |
-| Bob     | 32        | San Francisco |
-| Charlie | 19        | London        |
-```
+    {#basic-table}
+    | Name    | Age [int] | City [str]    |
+    | ---     | ---       | ---           |
+    | Alice   | 25        | New York      |
+    | Bob     | 32        | San Francisco |
+    | Charlie | 19        | London        |
 
 This example demonstrates a basic PSV table with columns for "Name", "Age" (annotated as an integer), and "City" (annotated as a string). The table has an optional ID "basic-table" specified using the Consistent Attribute Syntax.
 
 ## Example 2: Table with Properties
 
-```
-{#employee-table}
-| ID [str] [uuid] [unique] [key]       | Name    | Birthday [date] | Want Candy [bool] | Candy Count [int] |
-| ---                                  | ---     | ---             | ---               | ---               |
-| 0b32a75e-e190-4a71-b0e1-45e0d826584f | Alice   | 1994-05-15      | yes               | 10                |
-| 1e6e3e5a-f6cf-4b30-bc42-5365418604a1 | Bob     | 1989-08-20      | no                |                   |
-| 9a7f548f-0854-4c23-bb39-1aefb48b47ae | Charlie | 1996-12-10      | yes               | 32                |
-```
+    {#employee-table}
+    | ID [str] [uuid] [unique] [key]       | Name    | Birthday [date] | Want Candy [bool] | Candy Count [int] |
+    | ---                                  | ---     | ---             | ---               | ---               |
+    | 0b32a75e-e190-4a71-b0e1-45e0d826584f | Alice   | 1994-05-15      | yes               | 10                |
+    | 1e6e3e5a-f6cf-4b30-bc42-5365418604a1 | Bob     | 1989-08-20      | no                |                   |
+    | 9a7f548f-0854-4c23-bb39-1aefb48b47ae | Charlie | 1996-12-10      | yes               | 32                |
 
 This example showcases a PSV table with various data annotations and cell properties. The "ID" column is annotated as a string, with the "uuid", "unique", and "key" properties specified. The "Birthday" column uses the "date" annotation, while the "Want Candy" column is annotated as a boolean, and the "Candy Count" column is an integer.
 
