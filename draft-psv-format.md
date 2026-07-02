@@ -29,13 +29,25 @@ informative:
 
 --- abstract
 
-The Pipe Separated Value (PSV) format is a structured way to represent tabular data in Markdown, designed to be easily convertible to other data formats like JSON or CBOR. It supports data annotations for specifying data types or formats, cell properties for enforcing constraints, and an optional table ID using the Consistent Attribute Syntax. This document defines the specification for the PSV format.
+The Pipe Separated Value (PSV) format is a structured, typed alternative to CSV for representing tabular data. It uses a strict subset of GitHub Flavored Markdown table syntax, so that a PSV document is simultaneously human-readable, diffable in version control, renderable by common Markdown tools, and mechanically convertible to other data formats like JSON or CBOR. It supports data annotations for specifying data types or formats, cell properties for enforcing constraints, and an optional table ID using the Consistent Attribute Syntax. A PSV document may stand on its own as a data file, comparable to how a `.csv` file is used, or be embedded directly within a larger Markdown document. This document defines the specification for the PSV format.
 
 --- middle
 
 # Introduction
 
-The PSV format aims to provide a standardized way to represent tabular data within Markdown documents. It extends the existing Markdown table syntax with additional features and conventions to enable structured data representation and interoperability with other data formats.
+The PSV format aims to provide a standardized way to represent tabular data, either as a standalone data file or embedded within a Markdown document. It extends the existing Markdown table syntax with additional features and conventions to enable structured data representation and interoperability with other data formats.
+
+# Motivation: Why Pipes Instead of Commas
+
+CSV is the incumbent plain-text tabular format, but it has three practical weaknesses that motivate PSV:
+
+1. **No agreed dialect.** RFC 4180 documents a common interpretation of CSV, but decades of independently developed tools (spreadsheets, shells, databases) disagree on quoting, escaping, embedded newlines, and even the delimiter itself. The exact grammar of a given `.csv` file is usually discovered by trial and error against whichever tool produced it, rather than read off a specification.
+2. **No types.** Every consumer of a CSV file has to determine, out-of-band, whether a column holds a string, an integer, a date, or a UUID. The schema, if it exists at all, lives in a separate file, in documentation, or in someone's memory.
+3. **Not legible as text.** Because columns are not aligned, a raw CSV file is hard to read or review directly, and a version-control diff of a wide CSV file collapses a single changed cell into a line of undifferentiated commas.
+
+Markdown's pipe-table syntax already solves the third problem: it is designed to be read as plain text, it stays aligned under hand-editing, and it renders in essentially every code-hosting platform, editor, and static-site generator without extra tooling. It also already has a widely implemented cell-escaping convention (`\|`), defined by the CommonMark/GFM table specification, so PSV reuses that rather than inventing another quoting scheme.
+
+GFM table syntax, however, was designed for prose formatting, not data interchange, and leaves ambiguous things a data format cannot leave ambiguous — for example, whether the leading and trailing `|` on a row are required, which affects how many columns a parser sees. PSV therefore defines a strict, deterministic subset of GFM table syntax: every valid PSV table is a valid, correctly rendered GFM Markdown table, but not every valid GFM table is a valid PSV table. The goal is that a `.psv` file can be used directly as a practical, typed alternative to `.csv` — parsed on its own, without any surrounding prose — while remaining fully readable, diffable, and renderable using nothing but existing Markdown tooling.
 
 # Conventions and Definitions
 
@@ -53,7 +65,15 @@ A PSV table consists of the following components:
 
 4. **Data Rows**: The subsequent rows containing the actual data for each column.
 
+5. **Delimiters**: Every row (the header row, the delimiter row, and all data rows) MUST begin and end with a `|`. General GFM tables permit omitting the leading and/or trailing pipe, but PSV requires both on every row so that the number of columns is unambiguous when a PSV document is parsed on its own, without a Markdown renderer to fall back on.
+
 Each row can have `|` in each cell as long as it is escaped via `\|` (escaping rule is based on github tables).
+
+## Standalone and Embedded Documents
+
+A PSV document consists of a single PSV table, optionally surrounded by blank lines, and MAY be saved directly as a file — conventionally with a `.psv` extension — the same way a `.csv` file is used today, but with types and constraints encoded directly in the header row instead of tracked separately.
+
+A PSV table MAY instead be embedded within a larger Markdown document, as in the examples below. Embedded and standalone PSV tables use identical syntax: a PSV table is not a special case carved out of Markdown, it is a Markdown table that happens to also be strict enough to stand alone.
 
 # Features
 
@@ -111,7 +131,7 @@ TODO: Security considerations for the PSV format.
 
 # IANA Considerations
 
-This document has no IANA actions.
+This document has no IANA actions at this time. A future revision may register a media type (e.g., `text/psv`) to support the standalone `.psv` file usage described in "Standalone and Embedded Documents" above.
 
 
 --- back
